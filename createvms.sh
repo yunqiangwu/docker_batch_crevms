@@ -1,26 +1,36 @@
 #!/bin/bash
+# batch create vms 
 
 
 
-id_rsas_directory=./id_rsas
-vms_config_file=./vms_config.csv
+vms_info_directory=./vms_info
+vms_config_file=$vms_info_directory/vms_config.csv
+
+if [ "$1" = "-clear" ]; then
+
+	if  [ ! -d $vms_info_directory ]; then
+		exit
+	fi
 
 
-if [ -d $id_rsas_directory ];then
-    rm -rf $id_rsas_directory
+    cat $vms_config_file |cut -d, -f4|xargs docker rm -f
+    rm -rf $vms_info_directory
+    #cat /dev/null > $vms_config_file
+	exit
+fi
 
-    ./rmrfvms.sh
-
-    cat /dev/null > $vms_config_file
+if [ -d $vms_info_directory ];then
+    cat $vms_config_file |cut -d, -f4|xargs docker rm -f
+    rm -rf $vms_info_directory
 fi
 
 
 
 docker build . -t centos_sshd
-mkdir -p $id_rsas_directory
+mkdir -p $vms_info_directory
 
 
-for i in `seq 1 10`  
+for i in `seq 1 2`  
 do
 
 	container_name=my_vm_$i
@@ -29,7 +39,7 @@ do
 
 	container_ssh_port=`docker inspect --format="{{index ( index ( index  .NetworkSettings.Ports \"22/tcp\" ) 0) \"HostPort\"  }}" $container_id`
 
-	id_rsa_file=$id_rsas_directory/id_rsa_$container_ssh_port
+	id_rsa_file=$vms_info_directory/id_rsa_$container_ssh_port
 
 	echo "###----- ",$container_ssh_port,$id_rsa_file,$container_name
 	sleep 1
