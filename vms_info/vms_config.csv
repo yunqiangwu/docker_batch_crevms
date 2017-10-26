@@ -1,0 +1,8 @@
+172.17.0.3 ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_private_key_file=/home/wayne/docker_batch_crevms/./vms_info/id_rsa_32790 container_name=my_vm_1
+172.17.0.4 ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_private_key_file=/home/wayne/docker_batch_crevms/./vms_info/id_rsa_32791 container_name=my_vm_2
+172.17.0.5 ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_private_key_file=/home/wayne/docker_batch_crevms/./vms_info/id_rsa_32792 container_name=my_vm_3
+172.17.0.6 ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_private_key_file=/home/wayne/docker_batch_crevms/./vms_info/id_rsa_32793 container_name=my_vm_4
+172.17.0.7 ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_private_key_file=/home/wayne/docker_batch_crevms/./vms_info/id_rsa_32794 container_name=my_vm_5
+172.17.0.8 ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_private_key_file=/home/wayne/docker_batch_crevms/./vms_info/id_rsa_32795 container_name=my_vm_6
+172.17.0.9 ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_private_key_file=/home/wayne/docker_batch_crevms/./vms_info/id_rsa_32796 container_name=my_vm_7
+172.17.0.10 ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_private_key_file=/home/wayne/docker_batch_crevms/./vms_info/id_rsa_32797 container_name=my_vm_8

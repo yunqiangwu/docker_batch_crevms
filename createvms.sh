@@ -13,7 +13,7 @@ if [ "$1" = "-clear" ]; then
 	fi
 
 
-    cat $vms_config_file |cut -d, -f4|xargs docker rm -f
+    cat $vms_config_file |cut -d' ' -f5|cut -d'=' -f2|xargs docker rm -f
     rm -rf $vms_info_directory
     #cat /dev/null > $vms_config_file
 	exit
@@ -29,8 +29,12 @@ fi
 docker build . -t centos_sshd
 mkdir -p $vms_info_directory
 
+n=$1
+if [ "$n" = "" ];then
+    n=4
+fi
 
-for i in `seq 1 2`  
+for i in `seq 1 $n`  
 do
 
 	container_name=my_vm_$i
@@ -51,15 +55,17 @@ do
 
 	chmod 600 $id_rsa_file
 
-	container_ip=`ssh  -oStrictHostKeyChecking=no -i $id_rsa_file root@127.0.0.1 -p $container_ssh_port /showip.sh`
+	container_ip=`ssh  -oStrictHostKeyChecking=no -i $id_rsa_file root@127.0.0.1 -p $container_ssh_port /shell/showip.sh`
+
+	docker exec $container_name rm -rf /root/.ssh/known_hosts
 
 	#LC_ALL=C ifconfig|grep "inet addr:"|grep -v "127.0.0.1"|cut -d: -f2|awk '{print $1}'
 
-	echo $container_ip,$container_ssh_port,$id_rsa_file,$container_name>>$vms_config_file
+	echo $container_ip ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_private_key_file=`pwd`/$id_rsa_file container_name=$container_name>>$vms_config_file
 
 
 done
 
 
-
+cp ./vms_info/vms_config.csv /etc/ansible/hosts
 
